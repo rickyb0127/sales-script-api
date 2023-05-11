@@ -81,8 +81,6 @@ export const resolvers: Resolvers = {
 
         const encryptedPassword = await bcrypt.hash(password, 10);
 
-        console.log(encryptedPassword)
-
         const user = await DB_User.create({
           firstName,
           lastName,
@@ -133,6 +131,65 @@ export const resolvers: Resolvers = {
       });
 
       return paymentIntent.client_secret || null;
+    },
+    updateUser: async (_parent, args: any, context) => {
+      const decoded = await decodeToken(context);
+
+      if(decoded) {
+        const existingUser = await getUserById(decoded['user_id']);
+
+        if(!existingUser) {
+          throw new GraphQLError('User not found', {
+            extensions: {
+              status: 401
+            }
+          });
+        }
+
+        try {
+          await initDbSchema();
+          const {
+            firstName,
+            lastName,
+            email,
+            phone,
+            address1,
+            address2,
+            city,
+            state,
+            zip,
+            companyName
+          } = args.input;
+  
+          await existingUser.update({
+            firstName,
+            lastName,
+            email: email.toLowerCase(),
+            phone,
+            address1,
+            address2,
+            city,
+            state,
+            zip,
+            companyName
+          });
+  
+          const token = jwt.sign(
+            { user_id: existingUser.id, email: existingUser.email },
+            process.env.JWT_SECRET,
+            { expiresIn: "5h" }
+          );
+  
+          return token;
+        } catch(err) {
+          console.log(err)
+          throw new GraphQLError('Could not update accout. Please try again', {
+            extensions: {
+              status: 400
+            }
+          });
+        }
+      }
     }
   }
 };

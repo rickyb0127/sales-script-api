@@ -3,6 +3,13 @@ type User {
   email: String!
   firstName: String!
   lastName: String!
+  phone: String
+  address1: String
+  address2: String
+  city: String
+  state: String
+  zip: String
+  companyName: String
   # roles: JSON,
   # settings: JSON,
   isActive: Boolean!
@@ -85,6 +92,20 @@ input RegisterInput {
   companyName: String
 }
 
+input UpdateUserInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String
+  phone: String!
+  address1: String!
+  address2: String
+  city: String!
+  state: StateEnum!
+  zip: String!
+  companyName: String
+}
+
 type Query {
   user: User
   login(email: String!, password: String!): String
@@ -93,6 +114,7 @@ type Query {
 type Mutation {
   register(input: RegisterInput!): String
   createPaymentIntent(promoCode: String, enableAutomaticPayments: Boolean): String
+  updateUser(input: UpdateUserInput!): String
 }
 
 schema {

@@ -18,6 +18,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createPaymentIntent?: Maybe<Scalars['String']>;
   register?: Maybe<Scalars['String']>;
+  updateUser?: Maybe<Scalars['String']>;
 };
 
 
@@ -29,6 +30,11 @@ export type MutationCreatePaymentIntentArgs = {
 
 export type MutationRegisterArgs = {
   input: RegisterInput;
+};
+
+
+export type MutationUpdateUserArgs = {
+  input: UpdateUserInput;
 };
 
 export type Query = {
@@ -119,14 +125,35 @@ export enum StateEnum {
   Wy = 'WY'
 }
 
+export type UpdateUserInput = {
+  address1: Scalars['String'];
+  address2?: InputMaybe<Scalars['String']>;
+  city: Scalars['String'];
+  companyName?: InputMaybe<Scalars['String']>;
+  email: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  password?: InputMaybe<Scalars['String']>;
+  phone: Scalars['String'];
+  state: StateEnum;
+  zip: Scalars['String'];
+};
+
 export type User = {
   __typename?: 'User';
+  address1?: Maybe<Scalars['String']>;
+  address2?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']>;
+  companyName?: Maybe<Scalars['String']>;
   email: Scalars['String'];
   firstName: Scalars['String'];
   id: Scalars['String'];
   isActive: Scalars['Boolean'];
   lastName: Scalars['String'];
   paymentStatus?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
+  zip?: Maybe<Scalars['String']>;
 };
 
 
@@ -206,6 +233,7 @@ export type ResolversTypes = {
   RegisterInput: RegisterInput;
   StateEnum: StateEnum;
   String: ResolverTypeWrapper<Scalars['String']>;
+  UpdateUserInput: UpdateUserInput;
   User: ResolverTypeWrapper<User>;
 };
 
@@ -216,12 +244,14 @@ export type ResolversParentTypes = {
   Query: {};
   RegisterInput: RegisterInput;
   String: Scalars['String'];
+  UpdateUserInput: UpdateUserInput;
   User: User;
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createPaymentIntent?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, Partial<MutationCreatePaymentIntentArgs>>;
   register?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationRegisterArgs, 'input'>>;
+  updateUser?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'input'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
@@ -230,12 +260,19 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
+  address1?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  address2?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  city?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  companyName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   isActive?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   lastName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   paymentStatus?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  phone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  state?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  zip?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
