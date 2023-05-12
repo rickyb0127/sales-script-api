@@ -50,17 +50,17 @@ export type QueryLoginArgs = {
 };
 
 export type RegisterInput = {
-  address1: Scalars['String'];
+  address1?: InputMaybe<Scalars['String']>;
   address2?: InputMaybe<Scalars['String']>;
-  city: Scalars['String'];
+  city?: InputMaybe<Scalars['String']>;
   companyName?: InputMaybe<Scalars['String']>;
   email: Scalars['String'];
   firstName: Scalars['String'];
   lastName: Scalars['String'];
   password: Scalars['String'];
   phone: Scalars['String'];
-  state: StateEnum;
-  zip: Scalars['String'];
+  state?: InputMaybe<StateEnum>;
+  zip?: InputMaybe<Scalars['String']>;
 };
 
 export enum StateEnum {
@@ -126,17 +126,18 @@ export enum StateEnum {
 }
 
 export type UpdateUserInput = {
-  address1: Scalars['String'];
+  address1?: InputMaybe<Scalars['String']>;
   address2?: InputMaybe<Scalars['String']>;
-  city: Scalars['String'];
+  city?: InputMaybe<Scalars['String']>;
   companyName?: InputMaybe<Scalars['String']>;
   email: Scalars['String'];
   firstName: Scalars['String'];
   lastName: Scalars['String'];
   password?: InputMaybe<Scalars['String']>;
   phone: Scalars['String'];
-  state: StateEnum;
-  zip: Scalars['String'];
+  profileImgUrl?: InputMaybe<Scalars['String']>;
+  state?: InputMaybe<StateEnum>;
+  zip?: InputMaybe<Scalars['String']>;
 };
 
 export type User = {
@@ -152,8 +153,14 @@ export type User = {
   lastName: Scalars['String'];
   paymentStatus?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
+  settings?: Maybe<UserSettings>;
   state?: Maybe<Scalars['String']>;
   zip?: Maybe<Scalars['String']>;
+};
+
+export type UserSettings = {
+  __typename?: 'UserSettings';
+  profileImgUrl?: Maybe<Scalars['String']>;
 };
 
 
@@ -235,6 +242,7 @@ export type ResolversTypes = {
   String: ResolverTypeWrapper<Scalars['String']>;
   UpdateUserInput: UpdateUserInput;
   User: ResolverTypeWrapper<User>;
+  UserSettings: ResolverTypeWrapper<UserSettings>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -246,6 +254,7 @@ export type ResolversParentTypes = {
   String: Scalars['String'];
   UpdateUserInput: UpdateUserInput;
   User: User;
+  UserSettings: UserSettings;
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
@@ -271,8 +280,14 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   lastName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   paymentStatus?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   phone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  settings?: Resolver<Maybe<ResolversTypes['UserSettings']>, ParentType, ContextType>;
   state?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   zip?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type UserSettingsResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserSettings'] = ResolversParentTypes['UserSettings']> = {
+  profileImgUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -280,5 +295,6 @@ export type Resolvers<ContextType = any> = {
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
+  UserSettings?: UserSettingsResolvers<ContextType>;
 };
 

@@ -11,9 +11,13 @@ type User {
   zip: String
   companyName: String
   # roles: JSON,
-  # settings: JSON,
+  settings: UserSettings,
   isActive: Boolean!
   paymentStatus: String
+}
+
+type UserSettings {
+  profileImgUrl: String
 }
 
 enum StateEnum {
@@ -84,11 +88,11 @@ input RegisterInput {
   email: String!
   password: String!
   phone: String!
-  address1: String!
+  address1: String
   address2: String
-  city: String!
-  state: StateEnum!
-  zip: String!
+  city: String
+  state: StateEnum
+  zip: String
   companyName: String
 }
 
@@ -98,12 +102,13 @@ input UpdateUserInput {
   email: String!
   password: String
   phone: String!
-  address1: String!
+  address1: String
   address2: String
-  city: String!
-  state: StateEnum!
-  zip: String!
+  city: String
+  state: StateEnum
+  zip: String
   companyName: String
+  profileImgUrl: String
 }
 
 type Query {

@@ -25,6 +25,5 @@ export class DB_User extends Model {
 //TODO add fields
 // public lastLogin!: Date
 // public isFirstLogin!: boolean
-// public company!: string
 // public affiliate!: Affiliate
 // public avatarUrl!: string

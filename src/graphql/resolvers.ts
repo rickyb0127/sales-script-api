@@ -1,5 +1,5 @@
 import { GraphQLError } from "graphql";
-import { Resolvers } from "../@types/apiTypes";
+import { Resolvers, User } from "../@types/apiTypes";
 import { decodeToken, getUserByEmail, getUserById } from "../helpers/auth";
 import { DB_User } from "../models/DB_User";
 import { initDbSchema } from "../db";
@@ -15,7 +15,13 @@ export const resolvers: Resolvers = {
       if(decoded) {
         try {
           const user = await getUserById(decoded['user_id']);
-          return user;
+          const data = user?.dataValues;
+          const returnObj = {
+            ...data,
+            settings: JSON.parse(JSON.stringify(user!.settings))
+          } as User;
+
+          return returnObj;
         } catch(err) {
           throw new GraphQLError('User not found', {
             extensions: {
@@ -158,8 +164,15 @@ export const resolvers: Resolvers = {
             city,
             state,
             zip,
-            companyName
+            companyName,
+            profileImgUrl
           } = args.input;
+
+          const currentSettings = JSON.parse(JSON.stringify(existingUser.settings)) || {};
+          const updatedSettings = {
+            ...currentSettings,
+            profileImgUrl
+          }
   
           await existingUser.update({
             firstName,
@@ -171,7 +184,8 @@ export const resolvers: Resolvers = {
             city,
             state,
             zip,
-            companyName
+            companyName,
+            settings: updatedSettings
           });
   
           const token = jwt.sign(
